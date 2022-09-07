@@ -37,6 +37,10 @@ export class ImportCategoryUseCase {
   }
 
   async execute(file: Express.Multer.File) {
+    if (!file) {
+      throw new Error("invalid data");
+    }
+
     const categories = await this.loadCategories(file);
 
     categories.map(async (category) => {

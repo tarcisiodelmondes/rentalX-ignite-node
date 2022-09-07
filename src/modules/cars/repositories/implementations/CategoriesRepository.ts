@@ -1,4 +1,4 @@
-import { Category } from "../../model/Category";
+import { Category } from "../../entities/Category";
 import { ICategoriesRepository } from "../ICategoriesRepository";
 
 export class CategoriesRepository implements ICategoriesRepository {
@@ -20,6 +20,10 @@ export class CategoriesRepository implements ICategoriesRepository {
   }
 
   create({ name, description }) {
+    if (!name && !description) {
+      throw new Error("Invalid data!");
+    }
+
     const category = new Category();
 
     Object.assign(category, { name, description, created_at: new Date() });
