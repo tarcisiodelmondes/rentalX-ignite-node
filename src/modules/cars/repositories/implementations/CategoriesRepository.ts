@@ -1,42 +1,35 @@
 import { Category } from "../../entities/Category";
-import { ICategoriesRepository } from "../ICategoriesRepository";
+import {
+  ICategoriesRepository,
+  ICreateCategoryDTO,
+} from "../ICategoriesRepository";
+
+import { AppDataSource } from "../../../../database";
+import { Repository } from "typeorm";
 
 export class CategoriesRepository implements ICategoriesRepository {
-  private categories: Category[];
+  private repositories: Repository<Category>;
 
-  // eslint-disable-next-line no-use-before-define
-  private static INSTANCE: CategoriesRepository;
-
-  private constructor() {
-    this.categories = [];
+  constructor() {
+    this.repositories = AppDataSource.getRepository(Category);
   }
 
-  public static getInstance() {
-    if (!CategoriesRepository.INSTANCE) {
-      CategoriesRepository.INSTANCE = new CategoriesRepository();
-    }
-
-    return CategoriesRepository.INSTANCE;
-  }
-
-  create({ name, description }) {
+  async create({ name, description }: ICreateCategoryDTO) {
     if (!name && !description) {
       throw new Error("Invalid data!");
     }
 
-    const category = new Category();
+    const newCategory = this.repositories.create({ name, description });
 
-    Object.assign(category, { name, description, created_at: new Date() });
-
-    this.categories.push(category);
+    await this.repositories.save(newCategory);
   }
 
-  list() {
-    return this.categories;
+  async list() {
+    return await this.repositories.find();
   }
 
-  findByName(name: string) {
-    const category = this.categories.find((category) => category.name === name);
+  async findByName(name: string) {
+    const category = await this.repositories.findOne({ where: { name } });
     return category;
   }
 }
