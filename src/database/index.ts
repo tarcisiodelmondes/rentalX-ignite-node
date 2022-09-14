@@ -8,7 +8,7 @@ export const AppDataSource = new DataSource({
   password: "rentx_password",
   database: "rentx",
   migrations: ["./src/database/migrations/{*.js,*.ts}"],
-  entities: ["./src/modules/cars/entities/{*.js,*.ts}"],
+  entities: ["./src/modules/*/entities/{*.js,*.ts}"],
 });
 
 AppDataSource.initialize()
