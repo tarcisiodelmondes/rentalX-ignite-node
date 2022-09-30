@@ -1,5 +1,6 @@
-import { ICategoriesRepository } from "../../repositories/ICategoriesRepository";
 import { inject, injectable } from "tsyringe";
+
+import { ICategoriesRepository } from "../../repositories/ICategoriesRepository";
 
 @injectable()
 export class ListCategoriesUseCase {
@@ -9,6 +10,8 @@ export class ListCategoriesUseCase {
   ) {}
 
   async execute() {
-    return await this.categoriesRepository.list();
+    const allCategories = await this.categoriesRepository.list();
+
+    return allCategories;
   }
 }

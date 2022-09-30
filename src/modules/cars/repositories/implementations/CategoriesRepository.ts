@@ -1,11 +1,11 @@
+import { Repository } from "typeorm";
+
+import { AppDataSource } from "../../../../database";
 import { Category } from "../../entities/Category";
 import {
   ICategoriesRepository,
   ICreateCategoryDTO,
 } from "../ICategoriesRepository";
-
-import { AppDataSource } from "../../../../database";
-import { Repository } from "typeorm";
 
 export class CategoriesRepository implements ICategoriesRepository {
   private repositories: Repository<Category>;
@@ -16,7 +16,7 @@ export class CategoriesRepository implements ICategoriesRepository {
 
   async create({ name, description }: ICreateCategoryDTO) {
     if (!name && !description) {
-      throw new Error("Invalid data!");
+      throw new AppError("Invalid data!");
     }
 
     const newCategory = this.repositories.create({ name, description });
@@ -25,7 +25,8 @@ export class CategoriesRepository implements ICategoriesRepository {
   }
 
   async list() {
-    return await this.repositories.find();
+    const allCategories = await this.repositories.find();
+    return allCategories;
   }
 
   async findByName(name: string) {

@@ -1,8 +1,8 @@
 import { parse } from "csv-parse";
 import fs from "node:fs";
-
 import { inject, injectable } from "tsyringe";
 
+import { AppError } from "../../../../errors/AppError";
 import { CategoriesRepository } from "../../repositories/implementations/CategoriesRepository";
 
 interface IImportCategory {
@@ -44,7 +44,7 @@ export class ImportCategoryUseCase {
 
   async execute(file: Express.Multer.File) {
     if (!file) {
-      throw new Error("invalid data");
+      throw new AppError("invalid data");
     }
 
     const categories = await this.loadCategories(file);

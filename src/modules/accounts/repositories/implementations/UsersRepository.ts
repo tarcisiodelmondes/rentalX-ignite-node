@@ -1,8 +1,9 @@
-import { User } from "../../entities/User";
 import { Repository } from "typeorm";
-import { IUsersRepository } from "../IUsersRepository";
+
 import { AppDataSource } from "../../../../database";
 import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
+import { User } from "../../entities/User";
+import { IUsersRepository } from "../IUsersRepository";
 
 export class UsersRepository implements IUsersRepository {
   private repository: Repository<User>;
@@ -15,17 +16,31 @@ export class UsersRepository implements IUsersRepository {
     driver_license,
     email,
     name,
-    username,
     password,
+    id,
+    avatar,
   }: ICreateUserDTO) {
     const newUser = this.repository.create({
       driver_license,
       email,
       name,
-      username,
       password,
+      id,
+      avatar,
     });
 
     await this.repository.save(newUser);
+  }
+
+  async findByEmail(email: string) {
+    const user = await this.repository.findOne({ where: { email } });
+
+    return user;
+  }
+
+  async findById(id: string) {
+    const user = await this.repository.findOne({ where: { id } });
+
+    return user;
   }
 }
