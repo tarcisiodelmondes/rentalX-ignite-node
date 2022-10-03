@@ -2,8 +2,8 @@ import { parse } from "csv-parse";
 import fs from "node:fs";
 import { inject, injectable } from "tsyringe";
 
-import { AppError } from "../../../../errors/AppError";
-import { CategoriesRepository } from "../../repositories/implementations/CategoriesRepository";
+import { AppError } from "../../../../shared/errors/AppError";
+import { CategoriesRepository } from "../../infra/typeorm/repositories/CategoriesRepository";
 
 interface IImportCategory {
   name: string;
