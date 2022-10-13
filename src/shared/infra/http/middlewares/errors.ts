@@ -16,6 +16,6 @@ export function errors(
 
   return res.status(500).json({
     status: "error",
-    message: `Internal server Error`,
+    message: `Internal server Error ${err}`,
   });
 }

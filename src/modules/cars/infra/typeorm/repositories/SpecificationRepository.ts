@@ -1,4 +1,4 @@
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 
 import { AppDataSource } from "../../../../../shared/infra/typeorm";
 import {
@@ -23,5 +23,11 @@ export class SpecificationRepository implements ISpecificationRepository {
   async findByName(name: string) {
     const specification = await this.repository.findOne({ where: { name } });
     return specification;
+  }
+
+  async findByIds(ids: string[]) {
+    const specifications = await this.repository.findBy({ id: In(ids) });
+
+    return specifications;
   }
 }
