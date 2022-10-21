@@ -9,4 +9,5 @@ export interface ICarsRepository {
   findAvailableByBrand: (brand: string) => Promise<Car[]>;
   findAvailableByCategoryId: (categoryId: string) => Promise<Car[]>;
   findById: (id: string) => Promise<Car>;
+  updateAvailable: (id: string, available: boolean) => Promise<void>;
 }

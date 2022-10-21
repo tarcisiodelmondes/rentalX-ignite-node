@@ -70,4 +70,19 @@ export class CarsRepositoryInMemory implements ICarsRepository {
 
     return car;
   }
+
+  async updateAvailable(id: string, available: boolean) {
+    const carsUpdated = this.cars.map((car) => {
+      if (car.id === id) {
+        return {
+          ...car,
+          available,
+        };
+      }
+
+      return car;
+    });
+
+    this.cars = carsUpdated;
+  }
 }

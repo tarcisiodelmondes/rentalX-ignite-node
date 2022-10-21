@@ -51,10 +51,11 @@ describe("Create Car", () => {
       name: "SHADOW BLACK TEST 2",
     };
 
-    expect(async () => {
-      await createCarUseCase.execute(car1);
-      await createCarUseCase.execute(car2);
-    }).rejects.toBeInstanceOf(AppError);
+    await createCarUseCase.execute(car1);
+
+    await expect(createCarUseCase.execute(car2)).rejects.toEqual(
+      new AppError("Car already exists")
+    );
   });
 
   it("should be able to create a new car with available true by default", async () => {

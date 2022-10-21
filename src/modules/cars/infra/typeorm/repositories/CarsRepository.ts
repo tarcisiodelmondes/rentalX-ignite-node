@@ -38,29 +38,68 @@ export class CarsRepository implements ICarsRepository {
 
   async findAvailable() {
     const cars = await this.repository.find({ where: { available: true } });
-    return cars;
+
+    return cars.map((car) => {
+      return {
+        ...car,
+        fine_amount: Number(car.fine_amount),
+        daily_rate: Number(car.daily_rate),
+      };
+    });
   }
 
   async findAvailableByBrand(brand: string) {
     const cars = await this.repository.find({ where: { brand } });
-    return cars;
+    return cars.map((car) => {
+      return {
+        ...car,
+        fine_amount: Number(car.fine_amount),
+        daily_rate: Number(car.daily_rate),
+      };
+    });
   }
 
   async findAvailableByCategoryId(categoryId: string) {
     const cars = await this.repository.find({
       where: { category_id: categoryId },
     });
-    return cars;
+    return cars.map((car) => {
+      return {
+        ...car,
+        fine_amount: Number(car.fine_amount),
+        daily_rate: Number(car.daily_rate),
+      };
+    });
   }
 
   async findAvailableByName(name: string) {
     const cars = await this.repository.find({ where: { name } });
-    return cars;
+    return cars.map((car) => {
+      return {
+        ...car,
+        fine_amount: Number(car.fine_amount),
+        daily_rate: Number(car.daily_rate),
+      };
+    });
   }
 
   async findById(id: string) {
     const car = await this.repository.findOne({ where: { id } });
 
-    return car;
+    return {
+      ...car,
+      fine_amount: Number(car.fine_amount),
+      daily_rate: Number(car.daily_rate),
+    };
+  }
+
+  async updateAvailable(id: string, available: boolean) {
+    await this.repository
+      .createQueryBuilder()
+      .update()
+      .set({ available })
+      .where("id = :id")
+      .setParameters({ id })
+      .execute();
   }
 }

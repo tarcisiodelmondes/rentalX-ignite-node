@@ -16,7 +16,6 @@ export class CreateCarController {
     } = req.body;
 
     const createCarUseCase = container.resolve(CreateCarUseCase);
-
     await createCarUseCase.execute({
       name,
       description,
