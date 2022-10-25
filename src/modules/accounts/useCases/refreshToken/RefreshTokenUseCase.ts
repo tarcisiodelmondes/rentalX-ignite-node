@@ -42,16 +42,21 @@ export class RefreshTokenUseCase {
     await this.usersTokensRepository.deleteById(userToken.id);
 
     const refresh_token = sign({ email }, auth.secret_refresh_token, {
-      subject: sub,
+      subject: user_id,
       expiresIn: auth.expires_in_refresh_token,
     });
 
     await this.usersTokensRepository.create({
-      user_id: sub,
+      user_id,
       expires_date: this.dateProvider.addDays(auth.expires_refresh_token_days),
       refresh_token,
     });
 
-    return refresh_token;
+    const token = sign({}, auth.secret_token, {
+      subject: user_id,
+      expiresIn: auth.expires_in_token,
+    });
+
+    return { refresh_token, token };
   }
 }

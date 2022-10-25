@@ -1,3 +1,4 @@
+import { Expose } from "class-transformer";
 import crypto from "node:crypto";
 import {
   Entity,
@@ -35,6 +36,18 @@ export class User {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Expose({ name: "avatar_url" })
+  avatar_url() {
+    switch (process.env.disk) {
+      case "s3":
+        return `${process.env.AWS_BUCKET_URL}/avatar/${this.avatar}`;
+      case "local":
+        return `${process.env.LOCAL_API_URL}/avatar/${this.avatar}`;
+      default:
+        return null;
+    }
+  }
 
   constructor() {
     if (!this.id) {
