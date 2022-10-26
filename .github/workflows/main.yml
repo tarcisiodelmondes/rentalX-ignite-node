@@ -33,3 +33,16 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           source: "., !node_modules"
           target: "~/app/rentalX-ignite-node"
+          
+      - name: Update API
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+              cd ~/app/rentalX-ignite-node
+              npm i
+              npm run typeorm migration:run -d src/shared/infra/typeorm/index.ts
+              pm2 restart rentx_api
