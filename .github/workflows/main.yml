@@ -19,10 +19,10 @@ jobs:
           node-version: 16.x
           
       - name: Install dependecies
-        run: npm install
+        run: yarn
       
       - name: Build app
-        run: npm run build
+        run: yarn build
       
       - uses: appleboy/scp-action@master
         with:
@@ -42,6 +42,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
               cd ~/app/rentalX-ignite-node
-              npm i
-              npm run typeorm migration:run -d src/shared/infra/typeorm/index.ts
+              yarn
+              yarn typeorm migration:run -d src/shared/infra/typeorm/index.ts
               pm2 restart rentx_api
