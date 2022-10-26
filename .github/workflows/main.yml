@@ -24,7 +24,6 @@ jobs:
       - name: Build app
       - run: npm run vuild
       
-      - name: copy file via ssh password
       - uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
