@@ -12,9 +12,12 @@ import swaggerUi from "swagger-ui-express";
 import upload from "../../../config/upload";
 import swaggerFile from "../../../swagger.json";
 import { errors } from "./middlewares/errors";
+import { rateLimiter } from "./middlewares/rateLimiter";
 import { router } from "./routes";
 
 export const app = express();
+
+app.use(rateLimiter);
 
 app.use(express.json());
 app.use(cors());
